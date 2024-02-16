@@ -179,3 +179,52 @@ const handleMinus = () => {
 add.addEventListener("click", handleAdd);
 minus.addEventListener("click", handleMinus);
 ```
+
+<br>
+<br>
+
+# ToDo List with Redux
+
+**Redux의 3가지 원칙**
+
+1. state는 single source of truth고, read-only이다.
+2. store을 수정할 수 있는 유일한 방법은 action을 보내는 방법뿐이다. => dispatch
+3. **(중요)** state를 mutate(변형)하지 말아야한다.
+   > mutating state하는 대신에 new state objects를 리턴해야 한다. => state를 추가,삭제 하지 말고 새로운 state object를 생성해서 보내줘야 함. 즉, 수정이 아닌 새로운 것을 리턴(보내줌)
+
+**SetUp**
+
+```
+import { legacy_createStore } from "redux";
+
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
+
+const ADD_TODO = "ADD_TODO";
+const DELETE_TODO = "DELETE_TODO";
+
+const reducer = (state = [], action) => {
+  console.log(action);
+  switch (action.type) {
+    case ADD_TODO:
+      return [];
+    case DELETE_TODO:
+      return [];
+    default:
+      return state;
+  }
+};
+
+const store = legacy_createStore(reducer);
+
+const onSubmit = (event) => {
+  event.preventDefault();
+  const toDo = input.value;
+  input.value = "";
+  store.dispatch({ type: ADD_TODO, text: toDo });
+};
+
+form.addEventListener("submit", onSubmit);
+
+```
